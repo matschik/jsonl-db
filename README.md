@@ -26,7 +26,7 @@ import jsonlFile from "jsonl-db";
 
 ### Creating a JSONL file
 
-The `jsonlFile` function creates a new JSONL file. It takes one argument, the path to the file to create or operate on.
+Use the `jsonlFile` function instance. It takes one argument, the path to the file to create or operate on.
 
 ```javascript
 const myJsonlFile = jsonlFile("./data.jsonl");
@@ -39,6 +39,7 @@ myJsonlFile.add({ name: "John", age: 27 });
 ```
 
 The `add` method adds a single JSON object to the end of the file.
+It create the file if it does not exists.
 
 ```javascript
 myJsonlFile.addMany([
@@ -48,6 +49,7 @@ myJsonlFile.addMany([
 ```
 
 The `addMany` method adds an array of JSON objects to the end of the file.
+It create the file if it does not exists.
 
 ### Reading data
 
