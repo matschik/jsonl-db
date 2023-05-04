@@ -1,6 +1,6 @@
-# json-file
+# jsonl-db
 
-json-file is an open source library for working with JSON files in the JSON Lines format (_JSONL_), a convenient and compact representation of structured data.
+jsonl-db is an open source library for working with JSON files in the JSON Lines format (_JSONL_), a convenient and compact representation of structured data.
 
 This library provides a simple API for adding, updating, deleting and querying data in JSONL files. It also offers methods for reading the files in various ways, such as reading by batch or finding specific data elements.
 
@@ -10,18 +10,18 @@ This library provides a simple API for adding, updating, deleting and querying d
 
 ## Installation
 
-Install json-file with your favorite Node package manager like npm / pnpm / yarn.
+Install jsonl-db with your favorite Node package manager like npm / pnpm / yarn.
 
 ```
-npm install jsonl-file
+npm install jsonl-db
 ```
 
 ## Usage
 
-To use json-file in your project, import it as follows:
+To use jsonl-db in your project, import it as follows:
 
 ```javascript
-import jsonlFile from "jsonl-file";
+import jsonlFile from "jsonl-db";
 ```
 
 ### Creating a JSONL file
@@ -150,6 +150,22 @@ myJsonlFile.deleteFile();
 
 The `deleteFile` method removes the entire file.
 
+Here's an example of what a contributing section might look like in a jsonl-db README:
+
+## Contributing
+
+Contributions are welcome and encouraged! To contribute to jsonl-db, please follow these steps:
+
+1. Fork the repository.
+2. Create a new feature branch: `git checkout -b my-feature-branch`
+3. Make your changes and write tests for them.
+4. Ensure that all tests pass: `npm test`
+5. Commit your changes with a descriptive commit message.
+6. Push your feature branch to your fork: `git push origin my-feature-branch`
+7. Submit a pull request
+
+Please ensure that any contributions you make adhere to the project's coding standards and are properly documented. If you're unsure about anything, don't hesitate to ask for clarification or guidance.
+
 ## License
 
-json-file is licensed under the [MIT License](https://opensource.org/licenses/MIT).
+jsonl-db is licensed under the [MIT License](https://opensource.org/licenses/MIT).
