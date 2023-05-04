@@ -18,21 +18,16 @@ npm install jsonl-db
 
 ## Usage
 
-To use jsonl-db in your project, import it as follows:
-
-```javascript
-import jsonlFile from "jsonl-db";
-```
-
-### Creating a JSONL file
-
+To use jsonl-db in your project, import it.
 Use the `jsonlFile` function instance. It takes one argument, the path to the file to create or operate on.
 
 ```javascript
+import jsonlFile from "jsonl-db";
+
 const myJsonlFile = jsonlFile("./data.jsonl");
 ```
 
-### Adding data
+### Add data
 
 ```javascript
 myJsonlFile.add({ name: "John", age: 27 });
@@ -51,7 +46,7 @@ myJsonlFile.addMany([
 The `addMany` method adds an array of JSON objects to the end of the file.
 It create the file if it does not exists.
 
-### Reading data
+### Read data
 
 ```javascript
 myJsonlFile.read((line) => console.log(line));
@@ -105,7 +100,7 @@ const count = await myJsonlFile.countMatch(async (line) => {
 
 The `countMatch` method returns the number of JSON objects in the file that match a specified condition.
 
-### Updating data
+### Update data
 
 ```javascript
 myJsonlFile.updateWhere("name", "John", async (line) => {
@@ -130,7 +125,7 @@ myJsonlFile.updateMatch(
 
 The `updateMatch` method searches the file for all JSON objects that match a specified condition, and updates those objects using a provided update function.
 
-### Deleting data
+### Delete data
 
 ```javascript
 myJsonlFile.deleteWhere("name", "John");
