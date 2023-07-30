@@ -1,14 +1,14 @@
-# jsonl-db
+# jsonl-db 📚
 
-jsonl-db is an open source library for working with JSON files in the JSON Lines format (_JSONL_), a convenient and compact representation of structured data.
+jsonl-db is an open source library for working with JSON files in the JSON Lines format (JSONL), a convenient and compact representation of structured data 📊.
 
-This library provides a simple API for adding, updating, deleting and querying data in JSONL files. It also offers methods for reading the files in various ways, such as reading by batch or finding specific data elements.
+This library provides a simple API for adding ➕, updating 🔄, deleting ❌ and querying 🔍 data in JSONL files. It also offers methods for reading the files in various ways, such as reading by batch or finding specific data elements.
 
-## Requirements
+## Requirements ⚙️
 
-- Node.js v14 or higher
+- Node.js v16 or higher
 
-## Installation
+## Installation 💻
 
 Install jsonl-db with your favorite Node package manager like npm / pnpm / yarn.
 
@@ -16,7 +16,7 @@ Install jsonl-db with your favorite Node package manager like npm / pnpm / yarn.
 npm install jsonl-db
 ```
 
-## Usage
+## Usage 🛠️
 
 To use jsonl-db in your project, import it.
 Use the `jsonlFile` function instance. It takes one argument, the path to the file to create or operate on.
@@ -27,14 +27,14 @@ import jsonlFile from "jsonl-db";
 const myJsonlFile = jsonlFile("./data.jsonl");
 ```
 
-### Add data
+### Add data ➕
 
 ```javascript
 myJsonlFile.add({ name: "John", age: 27 });
 ```
 
 The `add` method adds a single JSON object to the end of the file.
-It create the file if it does not exists.
+It creates the file if it does not exists.
 
 ```javascript
 myJsonlFile.addMany([
@@ -44,9 +44,9 @@ myJsonlFile.addMany([
 ```
 
 The `addMany` method adds an array of JSON objects to the end of the file.
-It create the file if it does not exists.
+It creates the file if it does not exist.
 
-### Read data
+### Read data 📖
 
 ```javascript
 myJsonlFile.read((line) => console.log(line));
@@ -100,7 +100,7 @@ const count = await myJsonlFile.countMatch(async (line) => {
 
 The `countMatch` method returns the number of JSON objects in the file that match a specified condition.
 
-### Update data
+### Update data 🔄
 
 ```javascript
 myJsonlFile.updateWhere("name", "John", async (line) => {
@@ -125,7 +125,7 @@ myJsonlFile.updateMatch(
 
 The `updateMatch` method searches the file for all JSON objects that match a specified condition, and updates those objects using a provided update function.
 
-### Delete data
+### Delete data ❌
 
 ```javascript
 myJsonlFile.deleteWhere("name", "John");
@@ -149,20 +149,20 @@ The `deleteFile` method removes the entire file.
 
 Here's an example of what a contributing section might look like in a jsonl-db README:
 
-## Contributing
+## Contributing 🤝
 
 Contributions are welcome and encouraged! To contribute to jsonl-db, please follow these steps:
 
 1. Fork the repository.
 2. Create a new feature branch: `git checkout -b my-feature-branch`
-3. Make your changes and write tests for them.
-4. Ensure that all tests pass: `npm test`
-5. Commit your changes with a descriptive commit message.
-6. Push your feature branch to your fork: `git push origin my-feature-branch`
-7. Submit a pull request
+3. Make your changes and write tests for them 🧪.
+4. Ensure that all tests pass: `npm test` ✅
+5. Commit your changes with a descriptive commit message 📝.
+6. Push your feature branch to your fork: `git push origin my-feature-branch` 🚀
+7. Submit a pull request 💌
 
-Please ensure that any contributions you make adhere to the project's coding standards and are properly documented. If you're unsure about anything, don't hesitate to ask for clarification or guidance.
+Please ensure that any contributions you make adhere to the project's coding standards and are properly documented. If you're unsure about anything, don't hesitate to ask for clarification or guidance 🙋‍♂️.
 
-## License
+## License 📝
 
 jsonl-db is licensed under the [MIT License](https://opensource.org/licenses/MIT).
