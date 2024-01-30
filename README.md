@@ -4,6 +4,18 @@ jsonl-db is an open source library for working with JSON files in the JSON Lines
 
 This library provides a simple API for adding ➕, updating 🔄, deleting ❌ and querying 🔍 data in JSONL files. It also offers methods for reading the files in various ways, such as reading by batch or finding specific data elements.
 
+```
+{"id": 1, "name": "Alice", "email": "alice@example.com", "age": 25, "isActive": true}
+{"id": 2, "name": "Bob", "email": "bob@example.com", "age": 30, "isActive": false}
+{"id": 3, "name": "Charlie", "email": "charlie@example.com", "age": 28, "isActive": true}
+{"id": 4, "name": "Diana", "email": "diana@example.com", "age": 22, "isActive": true}
+{"id": 5, "name": "Ethan", "email": "ethan@example.com", "age": 35, "isActive": false}
+{"id": 6, "name": "Fiona", "email": "fiona@example.com", "age": 27, "isActive": true}
+{"id": 7, "name": "George", "email": "george@example.com", "age": 31, "isActive": false}
+{"id": 8, "name": "Hannah", "email": "hannah@example.com", "age": 24, "isActive": true}
+{"id": 9, "name": "Ian", "email": "ian@example.com", "age": 29, "isActive": true}
+{"id": 10, "name": "Julia", "email": "julia@example.com", "age": 26, "isActive": false}
+```
 ## Requirements ⚙️
 
 - Node.js v16 or higher
