@@ -5,7 +5,7 @@ jsonl-db is an open source library for working with JSON files in the JSON Lines
 This library provides a simple API for adding ➕, updating 🔄, deleting ❌ and querying 🔍 data in JSONL files. It also offers methods for reading the files in various ways, such as reading by batch or finding specific data elements.
 
 Example: users.jsonl
-```
+```jsonl
 {"id": 1, "name": "Alice", "email": "alice@example.com", "age": 25, "isActive": true}
 {"id": 2, "name": "Bob", "email": "bob@example.com", "age": 30, "isActive": false}
 {"id": 3, "name": "Charlie", "email": "charlie@example.com", "age": 28, "isActive": true}
