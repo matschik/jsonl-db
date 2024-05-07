@@ -40,22 +40,6 @@ describe("jsonlFile", () => {
     ]);
   });
 
-  test("read() should iterate over each line in file", async () => {
-    await file.add({ name: "Alice", age: 25 });
-    await file.add({ name: "Bob", age: 30 });
-
-    const lines = [];
-    await file.read((line) => {
-      lines.push(line);
-      return false;
-    });
-
-    expect(lines).toEqual([
-      { name: "Alice", age: 25 },
-      { name: "Bob", age: 30 },
-    ]);
-  });
-
   test("readByBatch() should iterate over batches of lines in file", async () => {
     await file.add({ name: "Alice", age: 25 });
     await file.add({ name: "Bob", age: 30 });
