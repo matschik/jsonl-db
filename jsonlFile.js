@@ -1,7 +1,7 @@
 import { createReadStream } from "node:fs";
 import { access, appendFile, rename, writeFile, rm } from "node:fs/promises";
 import { createInterface } from "node:readline";
-import { temporaryFileTask } from "tempy";
+import { temporaryFileTask } from "./lib/temp.js";
 
 function isSingleJson(o) {
   return typeof o === "object" && o !== null && !Array.isArray(o);

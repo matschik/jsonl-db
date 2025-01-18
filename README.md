@@ -2,7 +2,36 @@
 
 jsonl-db is an open source library for working with JSON files in the JSON Lines format (JSONL), a convenient and compact representation of structured data 📊.
 
-This library provides a simple API for adding ➕, updating 🔄, deleting ❌ and querying 🔍 data in JSONL files. It also offers methods for reading the files in various ways, such as reading by batch or finding specific data elements.
+## Features
+
+- **Adding Data ➕**  
+  Easily append single or multiple JSON objects to a JSONL file.
+
+- **Updating Data 🔄**  
+  Modify specific data elements in the file based on conditions or attributes.
+
+- **Deleting Data ❌**  
+  Remove specific records or the entire file with simple methods.
+
+- **Querying Data 🔍**  
+  Search and retrieve data based on attribute values or custom conditions.
+
+- **Batch Reading 📖**  
+  Process the file in smaller, manageable batches for efficiency.
+
+- **First and Last Records**  
+  Quickly access the first or last JSON object in the file.
+
+- **Count Matching**  
+  Count the number of records meeting specific criteria.
+
+- **Flexible API**  
+  Intuitive and user-friendly methods for interacting with JSONL files.
+
+- **File Management**  
+  Supports operations like file deletion and creation if it doesn’t exist.
+
+- **No dependency**
 
 Example: users.jsonl
 ```jsonl
@@ -19,7 +48,7 @@ Example: users.jsonl
 ```
 ## Requirements ⚙️
 
-- Node.js v16 or higher
+- Node.js v18 or higher
 
 ## Installation 💻
 
