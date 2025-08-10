@@ -58,6 +58,16 @@ Install jsonl-db with your favorite Node package manager like npm / pnpm / yarn.
 npm install jsonl-db
 ```
 
+## Bundle Formats 📦
+
+This library is bundled using [tsdown](https://github.com/antfu/tsdown) and provides multiple formats:
+
+- **ESM** (`.js`) - Modern ES modules for Node.js and bundlers
+- **CommonJS** (`.cjs`) - Traditional Node.js require() support
+- **TypeScript declarations** (`.d.ts`) - Full type support
+
+The library automatically detects your environment and uses the appropriate format.
+
 ## Usage 🛠️
 
 To use jsonl-db in your project, import it.

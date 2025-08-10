@@ -1,5 +1,5 @@
 import { describe, afterEach, test, expect } from "vitest";
-import jsonlFile from "./jsonlFile.js";
+import jsonlFile, { JsonObject } from "./jsonlFile.js";
 
 describe("jsonlFile", () => {
   const file = jsonlFile("test.jsonl");
@@ -28,7 +28,7 @@ describe("jsonlFile", () => {
     await file.add({ name: "Alice", age: 25 });
     await file.add({ name: "Bob", age: 30 });
 
-    const lines = [];
+    const lines: JsonObject[] = [];
     await file.read((line) => {
       lines.push(line);
       return false;
@@ -45,7 +45,7 @@ describe("jsonlFile", () => {
     await file.add({ name: "Bob", age: 30 });
     await file.add({ name: "Charlie", age: 35 });
 
-    const batches = [];
+    const batches: JsonObject[][] = [];
     await file.readByBatch((batch) => {
       batches.push(batch);
       return false;
