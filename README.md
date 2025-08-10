@@ -1,220 +1,251 @@
 # jsonl-db 📚
 
-jsonl-db is an open source library for working with JSON files in the JSON Lines format (JSONL), a convenient and compact representation of structured data 📊.
+**Simple, lightweight database alternative using JSON files**
 
-## Features
+Stop over-engineering your projects! jsonl-db gives you a database-like experience using simple JSON files. Perfect for prototypes, small projects, or when you just need to get things done quickly without the complexity of traditional databases.
 
-- **Adding Data ➕**  
-  Easily append single or multiple JSON objects to a JSONL file.
+## Why jsonl-db? 🤔
 
-- **Updating Data 🔄**  
-  Modify specific data elements in the file based on conditions or attributes.
+- **🚀 Get started in seconds** - No setup, no configuration, no complex schemas
+- **📁 Uses familiar JSON files** - Your data stays in human-readable format
+- **⚡ Zero dependencies** - Lightweight and fast
+- **🔄 Full CRUD operations** - Add, read, update, delete with simple methods
+- **🔍 Powerful querying** - Search and filter your data easily
+- **💡 Perfect for** - Prototypes, small apps, data processing, testing, learning
 
-- **Deleting Data ❌**  
-  Remove specific records or the entire file with simple methods.
+## What is JSONL? 📖
 
-- **Querying Data 🔍**  
-  Search and retrieve data based on attribute values or custom conditions.
+**JSONL (JSON Lines)** is a simple format where each line contains a valid JSON object. Think of it as a database table where each row is a JSON object on its own line.
 
-- **Batch Reading 📖**  
-  Process the file in smaller, manageable batches for efficiency.
-
-- **First and Last Records**  
-  Quickly access the first or last JSON object in the file.
-
-- **Count Matching**  
-  Count the number of records meeting specific criteria.
-
-- **Flexible API**  
-  Intuitive and user-friendly methods for interacting with JSONL files.
-
-- **File Management**  
-  Supports operations like file deletion and creation if it doesn’t exist.
-
-- **No dependency**
-
-Example: users.jsonl
+**Example:**
 ```jsonl
-{"id": 1, "name": "Alice", "email": "alice@example.com", "age": 25, "isActive": true}
-{"id": 2, "name": "Bob", "email": "bob@example.com", "age": 30, "isActive": false}
-{"id": 3, "name": "Charlie", "email": "charlie@example.com", "age": 28, "isActive": true}
-{"id": 4, "name": "Diana", "email": "diana@example.com", "age": 22, "isActive": true}
-{"id": 5, "name": "Ethan", "email": "ethan@example.com", "age": 35, "isActive": false}
-{"id": 6, "name": "Fiona", "email": "fiona@example.com", "age": 27, "isActive": true}
-{"id": 7, "name": "George", "email": "george@example.com", "age": 31, "isActive": false}
-{"id": 8, "name": "Hannah", "email": "hannah@example.com", "age": 24, "isActive": true}
-{"id": 9, "name": "Ian", "email": "ian@example.com", "age": 29, "isActive": true}
-{"id": 10, "name": "Julia", "email": "julia@example.com", "age": 26, "isActive": false}
+{"id": 1, "name": "Alice", "age": 25}
+{"id": 2, "name": "Bob", "age": 30}
+{"id": 3, "name": "Charlie", "age": 28}
 ```
+
+**Benefits:**
+- ✅ Easy to read and debug
+- ✅ Simple to append new records
+- ✅ No complex parsing needed
+- ✅ Works with standard text tools
+- ✅ Human-editable
+
+## Quick Start 🚀
+
+### Installation
+```bash
+npm install jsonl-db
+```
+
+### Basic Usage
+```javascript
+import jsonlFile from "jsonl-db";
+
+// Create or connect to a JSONL file
+const users = jsonlFile("./users.jsonl");
+
+// Add a user
+users.add({ name: "John", age: 27, email: "john@example.com" });
+
+// Find a user
+const john = await users.findWhere("name", "John");
+
+// Update a user
+users.updateWhere("name", "John", (user) => {
+  user.age = 28;
+  return user;
+});
+
+// Delete a user
+users.deleteWhere("name", "John");
+```
+
+## Core Features ✨
+
+### Data Operations
+- **➕ Add** - Single records or batches
+- **📖 Read** - Line by line or in batches
+- **🔄 Update** - By condition or custom logic
+- **❌ Delete** - Specific records or entire file
+
+### Querying
+- **🔍 Find** - First match or all matches
+- **📊 Count** - Total records or filtered counts
+- **⚡ Fast Access** - First and last records
+- **🎯 Flexible** - Custom conditions and filters
+
+### File Management
+- **📁 Auto-create** - Files created automatically
+- **🗑️ Clean deletion** - Remove files when needed
+- **💾 Persistent** - Data survives restarts
+
+## Real-World Examples 🌟
+
+### User Management
+```javascript
+const users = jsonlFile("./users.jsonl");
+
+// Add multiple users
+users.addMany([
+  { id: 1, name: "Alice", role: "admin" },
+  { id: 2, name: "Bob", role: "user" },
+  { id: 3, name: "Charlie", role: "user" }
+]);
+
+// Find all admins
+const admins = await users.findMatch(user => user.role === "admin");
+
+// Count active users
+const activeCount = await users.countMatch(user => user.isActive);
+```
+
+### Logging System
+```javascript
+const logs = jsonlFile("./app.log");
+
+// Add log entry
+logs.add({
+  timestamp: new Date().toISOString(),
+  level: "info",
+  message: "User logged in",
+  userId: 123
+});
+
+// Get recent logs
+const recentLogs = await logs.findMatch(log => 
+  new Date(log.timestamp) > new Date(Date.now() - 24 * 60 * 60 * 1000)
+);
+```
+
+### Configuration Store
+```javascript
+const config = jsonlFile("./config.jsonl");
+
+// Store settings
+config.add({ key: "theme", value: "dark" });
+config.add({ key: "language", value: "en" });
+
+// Get setting
+const theme = await config.findWhere("key", "theme");
+```
+
+## When to Use jsonl-db 🎯
+
+**Perfect for:**
+- 🚀 **Prototypes** - Get your idea working fast
+- 📱 **Small apps** - Personal projects, simple tools
+- 🧪 **Testing** - Mock data, test scenarios
+- 📊 **Data processing** - ETL jobs, data analysis
+- 🎓 **Learning** - Understand database concepts
+- 🔧 **Configuration** - App settings, user preferences
+
+**Consider alternatives when:**
+- 📈 **Large datasets** - Millions of records
+- 👥 **Multiple users** - Concurrent access needed
+- 🔒 **Complex security** - Advanced permissions required
+- 🚀 **High performance** - Sub-millisecond queries needed
+
 ## Requirements ⚙️
 
 - Node.js v18 or higher
 
-## Installation 💻
-
-Install jsonl-db with your favorite Node package manager like npm / pnpm / yarn.
-
-```
-npm install jsonl-db
-```
-
 ## Bundle Formats 📦
 
-This library is bundled using [tsdown](https://github.com/antfu/tsdown) and provides multiple formats:
+Multiple formats available for different environments:
+- **ESM** (`.js`) - Modern ES modules
+- **CommonJS** (`.cjs`) - Traditional Node.js
+- **TypeScript** (`.d.ts`) - Full type support
 
-- **ESM** (`.js`) - Modern ES modules for Node.js and bundlers
-- **CommonJS** (`.cjs`) - Traditional Node.js require() support
-- **TypeScript declarations** (`.d.ts`) - Full type support
+## API Reference 📚
 
-The library automatically detects your environment and uses the appropriate format.
+### Core Methods
 
-## Usage 🛠️
-
-To use jsonl-db in your project, import it.
-Use the `jsonlFile` function instance. It takes one argument, the path to the file to create or operate on.
-
+#### Adding Data
 ```javascript
-import jsonlFile from "jsonl-db";
+// Single record
+users.add({ name: "John", age: 27 });
 
-const myJsonlFile = jsonlFile("./data.jsonl");
-```
-
-### Add data ➕
-
-```javascript
-myJsonlFile.add({ name: "John", age: 27 });
-```
-
-The `add` method adds a single JSON object to the end of the file.
-It creates the file if it does not exists.
-
-```javascript
-myJsonlFile.addMany([
+// Multiple records
+users.addMany([
   { name: "John", age: 27 },
-  { name: "Jane", age: 31 },
+  { name: "Jane", age: 31 }
 ]);
 ```
 
-The `addMany` method adds an array of JSON objects to the end of the file.
-It creates the file if it does not exist.
-
-### Read data 📖
-
+#### Reading Data
 ```javascript
-myJsonlFile.read((line) => console.log(line));
+// Read all records
+users.read(line => console.log(line));
+
+// Read in batches
+users.readByBatch(batch => console.log(batch), 100);
+
+// Get first/last record
+const first = await users.first();
+const last = await users.last();
+
+// Find specific record
+const user = await users.findWhere("name", "John");
+
+// Find with custom condition
+const adults = await users.findMatch(user => user.age >= 18);
 ```
 
-The `read` method reads the file line-by-line and executes a callback function for each provided line. In this example, it simply logs each JSON object to the console.
-
+#### Updating Data
 ```javascript
-myJsonlFile.readByBatch((batch) => console.log(batch), 500);
-```
-
-The `readByBatch` method reads the file in batches of a specified size, and executes a callback function for each batch. In this example, batches of two JSON objects are logged to the console.
-
-```javascript
-const firstLine = await myJsonlFile.first();
-```
-
-The `first` method returns the first JSON object in the file.
-
-```javascript
-const lastLine = await myJsonlFile.last();
-```
-
-The `last` method returns the last JSON object in the file.
-
-```javascript
-const match = await myJsonlFile.findWhere("name", "John");
-```
-
-The `findWhere` method searches the file for the first JSON object where the specified attribute equals the specified value. In this example, the JSON object with "name": "John" is returned.
-
-```javascript
-const matches = await myJsonlFile.findMatch(async (line) => {
-  return line.age > 30;
+// Update by condition
+users.updateWhere("name", "John", user => {
+  user.age = 28;
+  return user;
 });
-```
 
-The `findMatch` method searches the file for all JSON objects that match a specified condition. In this example, all JSON objects with "age" greater than 30 are returned.
-
-```javascript
-const count = await myJsonlFile.count();
-```
-
-The `count` method returns the number of JSON objects in the file.
-
-```javascript
-const count = await myJsonlFile.countMatch(async (line) => {
-  return line.age > 30;
-});
-```
-
-The `countMatch` method returns the number of JSON objects in the file that match a specified condition.
-
-### Update data 🔄
-
-```javascript
-myJsonlFile.updateWhere("name", "John", async (line) => {
-  line.age = 28;
-  return line;
-});
-```
-
-The `updateWhere` method searches the file for JSON objects where the specified attribute equals the specified value, and updates those objects using a provided update function.
-
-```javascript
-myJsonlFile.updateMatch(
-  async (line) => {
-    return line.age > 30;
-  },
-  async (line) => {
-    line.isOlderThan30 = true;
-    return line;
+// Update with custom logic
+users.updateMatch(
+  user => user.age > 30,
+  user => {
+    user.isSenior = true;
+    return user;
   }
 );
 ```
 
-The `updateMatch` method searches the file for all JSON objects that match a specified condition, and updates those objects using a provided update function.
-
-### Delete data ❌
-
+#### Deleting Data
 ```javascript
-myJsonlFile.deleteWhere("name", "John");
+// Delete by condition
+users.deleteWhere("name", "John");
+
+// Delete with custom logic
+users.deleteMatch(user => user.age > 100);
+
+// Delete entire file
+users.deleteFile();
 ```
 
-The `deleteWhere` method searches the file for JSON objects where the specified attribute equals the specified value, and removes those objects from the file.
-
+#### Counting Records
 ```javascript
-myJsonlFile.deleteMatch(async (line) => {
-  return line.age > 30;
-});
+// Total count
+const total = await users.count();
+
+// Count with condition
+const adults = await users.countMatch(user => user.age >= 18);
 ```
-
-The `deleteMatch` method searches the file for all JSON objects that match a specified condition, and removes those objects from the file.
-
-```javascript
-myJsonlFile.deleteFile();
-```
-
-The `deleteFile` method removes the entire file.
-
-Here's an example of what a contributing section might look like in a jsonl-db README:
 
 ## Contributing 🤝
 
-Contributions are welcome and encouraged! To contribute to jsonl-db, please follow these steps:
+We love contributions! Here's how to help:
 
-1. Fork the repository.
-2. Create a new feature branch: `git checkout -b my-feature-branch`
-3. Make your changes and write tests for them 🧪.
-4. Ensure that all tests pass: `npm test` ✅
-5. Commit your changes with a descriptive commit message 📝.
-6. Push your feature branch to your fork: `git push origin my-feature-branch` 🚀
-7. Submit a pull request 💌
-
-Please ensure that any contributions you make adhere to the project's coding standards and are properly documented. If you're unsure about anything, don't hesitate to ask for clarification or guidance 🙋‍♂️.
+1. **Fork** the repository
+2. **Create** a feature branch: `git checkout -b my-feature`
+3. **Make** your changes and add tests
+4. **Test** everything: `npm test`
+5. **Commit** with clear messages
+6. **Push** and submit a pull request
 
 ## License 📝
 
-jsonl-db is licensed under the [MIT License](https://opensource.org/licenses/MIT).
+MIT License - feel free to use in any project!
+
+---
+
+**Ready to simplify your data storage?** Start with jsonl-db and focus on building features, not database complexity! 🚀
