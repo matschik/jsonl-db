@@ -40,72 +40,77 @@ npm install jsonl-db
 
 ### Basic Usage
 ```javascript
-import jsonlFile from "jsonl-db";
+import { jsonlDir } from "jsonl-db";
 
-// Create or connect to a JSONL file
-const users = jsonlFile("./users.jsonl");
+// Create a database directory
+const db = jsonlDir("./data");
+
+// Create a users collection
+const users = db.file("users");
 
 // Add a user
-users.add({ name: "John", age: 27, email: "john@example.com" });
+await users.add({ name: "John", age: 27, email: "john@example.com" });
 
 // Find a user
-const john = await users.findWhere("name", "John");
+const john = await users.findOne(user => user.name === "John");
 
 // Update a user
-users.updateWhere("name", "John", (user) => {
-  user.age = 28;
-  return user;
-});
+const updatedUsers = await users.update(
+  user => user.name === "John",
+  user => ({ ...user, age: 28 })
+);
 
 // Delete a user
-users.deleteWhere("name", "John");
+const remainingUsers = await users.delete(user => user.name === "John");
 ```
 
 ## Core Features ✨
 
 ### Data Operations
 - **➕ Add** - Single records or batches
-- **📖 Read** - Line by line or in batches
-- **🔄 Update** - By condition or custom logic
-- **❌ Delete** - Specific records or entire file
+- **📖 Read** - Find first match or all matches
+- **🔄 Update** - By condition with custom logic
+- **❌ Delete** - Specific records with conditions
 
 ### Querying
 - **🔍 Find** - First match or all matches
-- **📊 Count** - Total records or filtered counts
-- **⚡ Fast Access** - First and last records
+- **📊 Count** - Total records in collection
+- **⚡ Fast Access** - Efficient batch processing
 - **🎯 Flexible** - Custom conditions and filters
 
 ### File Management
 - **📁 Auto-create** - Files created automatically
-- **🗑️ Clean deletion** - Remove files when needed
+- **🗂️ Organized** - Directory-based structure
 - **💾 Persistent** - Data survives restarts
 
 ## Real-World Examples 🌟
 
 ### User Management
 ```javascript
-const users = jsonlFile("./users.jsonl");
+const db = jsonlDir("./data");
+const users = db.file("users");
 
 // Add multiple users
-users.addMany([
+await users.add([
   { id: 1, name: "Alice", role: "admin" },
   { id: 2, name: "Bob", role: "user" },
   { id: 3, name: "Charlie", role: "user" }
 ]);
 
 // Find all admins
-const admins = await users.findMatch(user => user.role === "admin");
+const admins = await users.find(user => user.role === "admin");
 
-// Count active users
-const activeCount = await users.countMatch(user => user.isActive);
+// Count total users
+const userCount = await users.count();
 ```
 
 ### Logging System
 ```javascript
-const logs = jsonlFile("./app.log");
+const db = jsonlDir("./logs");
+const appLogs = db.file("app");
 
 // Add log entry
-logs.add({
+await appLogs.add({
   timestamp: new Date().toISOString(),
   level: "info",
   message: "User logged in",
@@ -113,21 +118,41 @@ logs.add({
 });
 
 // Get recent logs
-const recentLogs = await logs.findMatch(log => 
+const recentLogs = await appLogs.find(log => 
   new Date(log.timestamp) > new Date(Date.now() - 24 * 60 * 60 * 1000)
 );
 ```
 
 ### Configuration Store
 ```javascript
-const config = jsonlFile("./config.jsonl");
+const db = jsonlDir("./config");
+const settings = db.file("app-settings");
 
 // Store settings
-config.add({ key: "theme", value: "dark" });
-config.add({ key: "language", value: "en" });
+await settings.add({ key: "theme", value: "dark" });
+await settings.add({ key: "language", value: "en" });
 
 // Get setting
-const theme = await config.findWhere("key", "theme");
+const theme = await settings.findOne(setting => setting.key === "theme");
+```
+
+### Multi-Entity Application
+```javascript
+const db = jsonlDir("./app-data");
+
+// Different collections for different entities
+const users = db.file("users");
+const products = db.file("products");
+const orders = db.file("orders");
+
+// Work with users
+await users.add({ name: "John", email: "john@example.com" });
+
+// Work with products
+await products.add({ name: "Laptop", price: 999.99 });
+
+// Work with orders
+await orders.add({ userId: 1, productId: 1, quantity: 2 });
 ```
 
 ## When to Use jsonl-db 🎯
@@ -148,9 +173,7 @@ const theme = await config.findWhere("key", "theme");
 
 ## Requirements ⚙️
 
-- Node.js v18 or higher
-
-## Bundle Formats 📦
+- Node.js v22 or higher
 
 Multiple formats available for different environments:
 - **ESM** (`.js`) - Modern ES modules
@@ -159,15 +182,27 @@ Multiple formats available for different environments:
 
 ## API Reference 📚
 
-### Core Methods
+### Core API
+
+#### Creating a Database
+```javascript
+import { jsonlDir } from "jsonl-db";
+
+// Create a database in a directory
+const db = jsonlDir("./data");
+
+// Create collections (files) for different entities
+const users = db.file("users");
+const products = db.file("products");
+```
 
 #### Adding Data
 ```javascript
 // Single record
-users.add({ name: "John", age: 27 });
+await users.add({ name: "John", age: 27 });
 
 // Multiple records
-users.addMany([
+await users.add([
   { name: "John", age: 27 },
   { name: "Jane", age: 31 }
 ]);
@@ -175,60 +210,29 @@ users.addMany([
 
 #### Reading Data
 ```javascript
-// Read all records
-users.read(line => console.log(line));
+// Find first match
+const user = await users.findOne(user => user.name === "John");
 
-// Read in batches
-users.readByBatch(batch => console.log(batch), 100);
+// Find all matches
+const adults = await users.find(user => user.age >= 18);
 
-// Get first/last record
-const first = await users.first();
-const last = await users.last();
-
-// Find specific record
-const user = await users.findWhere("name", "John");
-
-// Find with custom condition
-const adults = await users.findMatch(user => user.age >= 18);
+// Count total records
+const total = await users.count();
 ```
 
 #### Updating Data
 ```javascript
-// Update by condition
-users.updateWhere("name", "John", user => {
-  user.age = 28;
-  return user;
-});
-
 // Update with custom logic
-users.updateMatch(
+const updatedUsers = await users.update(
   user => user.age > 30,
-  user => {
-    user.isSenior = true;
-    return user;
-  }
+  user => ({ ...user, isSenior: true })
 );
 ```
 
 #### Deleting Data
 ```javascript
-// Delete by condition
-users.deleteWhere("name", "John");
-
-// Delete with custom logic
-users.deleteMatch(user => user.age > 100);
-
-// Delete entire file
-users.deleteFile();
-```
-
-#### Counting Records
-```javascript
-// Total count
-const total = await users.count();
-
-// Count with condition
-const adults = await users.countMatch(user => user.age >= 18);
+// Delete with condition
+const remainingUsers = await users.delete(user => user.age > 100);
 ```
 
 ## Contributing 🤝
