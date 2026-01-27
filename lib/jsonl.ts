@@ -6,10 +6,10 @@ export interface JsonObject {
     [key: string]: any;
 }
 
-export type OnBatchCallback = (batch: JsonObject[]) => boolean | Promise<boolean>;
-export type OnLineCallback = (line: JsonObject) => void | boolean | Promise<void | boolean>;
+export type OnBatchCallback<T extends JsonObject = JsonObject> = (batch: T[]) => boolean | Promise<boolean>;
+export type OnLineCallback<T extends JsonObject = JsonObject> = (line: T) => void | boolean | Promise<void | boolean>;
 
-export function createJsonlFile(filePath: string) {
+export function createJsonlFile<T extends JsonObject = JsonObject>(filePath: string) {
     async function ensure(){
         let fileIsEmpty = false;
         if (!(await safePathExists(filePath))) {
@@ -23,14 +23,14 @@ export function createJsonlFile(filePath: string) {
         return linePrefix;
     }
 
-    async function read(onBatch: OnBatchCallback, batchSize: number = 1000) {
+    async function read(onBatch: OnBatchCallback<T>, batchSize: number = 1000) {
         if (!(await safePathExists(filePath))) {
             return; // File doesn't exist, nothing to read
         }
 
         const rl = getRl(filePath);
 
-        let batch: JsonObject[] = [];
+        let batch: T[] = [];
         let canEndGlobal = false;
 
         try {
@@ -63,7 +63,7 @@ export function createJsonlFile(filePath: string) {
         }
     }
 
-    async function readLineByLine(onLine: OnLineCallback) {
+    async function readLineByLine(onLine: OnLineCallback<T>) {
         if (!(await safePathExists(filePath))) {
             return; // File doesn't exist, nothing to read
         }
@@ -101,7 +101,7 @@ export function createJsonlFile(filePath: string) {
             await fs.appendFile(filePath, linePrefix + lines.join("\n"));
         },
         
-        async append(data: JsonObject | JsonObject[]): Promise<void> {
+        async append(data: T | T[]): Promise<void> {
             const lines = Array.isArray(data) ? data : [data];
             const jsonLines = lines.map(obj => JSON.stringify(obj));
             await this.appendText(jsonLines);

@@ -157,6 +157,40 @@ describe('jsonl-db', () => {
         });
     });
 
+    describe('update operations with mutateDb=true', () => {
+        beforeEach(async () => {
+            const users = [
+                { id: 1, name: 'John Doe', email: 'john@example.com', age: 30 },
+                { id: 2, name: 'Jane Smith', email: 'jane@example.com', age: 25 }
+            ];
+            await usersFile.add(users);
+        });
+
+        it('should return updated objects and ALSO persist changes', async () => {
+            const updated = await usersFile.update(
+                u => u.age > 25,
+                u => ({ ...u, age: u.age + 1 }),
+                true
+            );
+
+            expect(updated).toHaveLength(1);
+            expect(updated[0].age).toBe(31);
+
+            // Note: with mutateDb=true, changes should be persisted to the file
+            const found = await usersFile.findOne(u => u.id === 1);
+            expect(found?.age).toBe(31); // Updated value
+        });
+
+        it('should return empty array when no records match update criteria', async () => {
+            const updated = await usersFile.update(
+                u => u.age > 100,
+                u => ({ ...u, age: 999 })
+            );
+
+            expect(updated).toEqual([]);
+        });
+    });
+
     describe('delete operations', () => {
         beforeEach(async () => {
             const users = [
@@ -189,6 +223,44 @@ describe('jsonl-db', () => {
             expect(kept).toHaveLength(3);
             expect(kept.map(u => u.id)).toEqual([1, 2, 3]);
             
+            // Verify no records were actually deleted
+            const count = await usersFile.count();
+            expect(count).toBe(3);
+        });
+    });
+
+    describe('delete operations with mutateDb=true', () => {
+        beforeEach(async () => {
+            const users = [
+                { id: 1, name: 'John Doe', email: 'john@example.com', age: 30 },
+                { id: 2, name: 'Jane Smith', email: 'jane@example.com', age: 25 },
+                { id: 3, name: 'Bob Johnson', email: 'bob@example.com', age: 35 }
+            ];
+            await usersFile.add(users);
+        });
+
+        it('should return records that are kept (not deleted) and ALSO persist deletions', async () => {
+            const kept = await usersFile.delete(u => u.age > 30, true);
+
+            // Note: The delete operation returns records that are kept (not deleted)
+            // and with mutateDb=true, it also persists the deletions to the file
+            expect(kept).toHaveLength(2);
+            expect(kept.map(u => u.id)).toEqual([1, 2]);
+
+            // Verify that records were deleted from the file
+            const count = await usersFile.count();
+            expect(count).toBe(2);
+
+            const allRecords = await usersFile.find(() => true);
+            expect(allRecords.map(u => u.id)).toEqual([1, 2]);
+        });
+
+        it('should return all records when no deletion criteria match', async () => {
+            const kept = await usersFile.delete(u => u.age > 100);
+
+            expect(kept).toHaveLength(3);
+            expect(kept.map(u => u.id)).toEqual([1, 2, 3]);
+
             // Verify no records were actually deleted
             const count = await usersFile.count();
             expect(count).toBe(3);
